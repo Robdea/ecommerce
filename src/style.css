@@ -1,0 +1,25 @@
+@import "tailwindcss/utilities";
+@import "tailwindcss/preflight";
+
+@import "tailwindcss";
+@tailwind utilities;
+
+@custom-variant dark (&:where(.dark, .dark *)); 
+body{
+  height: 100vh;
+}
+
+#app{
+  height: 100%;
+}
+
+
+@layer base {
+  :root {
+    --primary: #903737d1;
+  }
+
+  .dark {
+   --primary: #fff123;
+  }
+}
