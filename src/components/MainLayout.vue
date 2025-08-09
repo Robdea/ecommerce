@@ -7,11 +7,16 @@ import HeaderBar from './HeaderBar.vue';
 <template>
     <HeaderBar/>
 
-  <main>
+  <main class="bg-secundary">
     <RouterView/>
   </main>
-  <footer>
-    info
+  <footer class="bg-dark-blue">
+    <h2>saasds</h2>
+    <h2>saasds</h2>
+    <h2>saasds</h2>
+    <h2>saasds</h2>
+    <h2>saasds</h2>
+    <h2>saasds</h2>
   </footer>
 </template>
 

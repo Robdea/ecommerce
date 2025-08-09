@@ -21,7 +21,7 @@ function addProductInCar(product) {
 
 <template>
     <div 
-    class="bg-amber-200 rounded-3xl"
+    class="bg-secundary-bg rounded-3xl card"
     >
     
         <RouterLink 
@@ -33,20 +33,29 @@ function addProductInCar(product) {
                 loading="lazy"
                 :src="props.product.thumbnail" :alt="'Picture of ' + props.product.title">
             </div>
-            <section class="flex flex-col p-5 bg-amber-900 rounded-b-3xl">
-                <span>{{ props.product.title }}</span>
-                <span>{{ props.product.price }}</span>
+            <section class="flex flex-col p-5 bg-secundary-blue">
+                <span class="text-semi-white font-medium">{{ props.product.title }}</span>
+                <span class="font-bold text-semi-white price">{{ props.product.price }}</span>
             </section>
 
         </RouterLink>
-        <button
-        @click="addProductInCar(props.product)"
-        class="z-20 bg-neutral-500 px-6"
-        >
-            add car
-        </button>
+        <div class="bg-secundary-blue rounded-b-3xl">
+            <button
+            @click="addProductInCar(props.product)"
+            class="z-20 bg-neutral-500 px-6"
+            >
+                add car
+            </button>
+        </div>
     </div>
 </template>
 
-<style scoped>
+<style>
+.price{
+    font-size: 1.2em;
+}
+
+.card{
+    width: clamp(280px, 23vw ,330px);
+}
 </style>

@@ -13,13 +13,26 @@ body{
   height: 100%;
 }
 
-
-@layer base {
-  :root {
-    --primary: #903737d1;
+@theme{
+    --color-primary: #0b121c;
+    --color-blue: #70a8f7;
+    --color-secundary: #0c131d;
+    --color-light-gray: #1d2530;
+    --color-text: #98a4b3;
+    --color-semi-white: #eff2f5;
+    --color-dark-blue: #111822;
+    --color-secundary-blue: #151c27;
+    --color-secundary-bg: #f7f7f7c4;    
   }
 
-  .dark {
-   --primary: #fff123;
-  }
-}
+
+/* 
+black: 0b121c
+fondo: 0c131d
+white: eff2f5
+secundary-dark:111822
+blue: 70a8f7
+contorno: 1d2530
+ksks
+ 
+*/

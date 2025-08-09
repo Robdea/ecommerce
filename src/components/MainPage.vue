@@ -18,9 +18,9 @@ onMounted(async () =>{
 </script>
 
 <template>
-    <div class="">
+    <div class="container-cards">
       <div>
-        <ul class="flex flex-wrap gap-3">
+        <ul class="flex flex-wrap gap-3 justify-center">
           <li v-for="product in products" :key="product.id">
             <ProductCard
               :product="product"
@@ -33,6 +33,9 @@ onMounted(async () =>{
 </template>
 
 
-<style  scoped>
-
+<style>
+.container-cards{
+  width: 100%;
+  min-width: 600px;
+}
 </style>

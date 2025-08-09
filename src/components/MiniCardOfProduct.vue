@@ -17,8 +17,6 @@ function remove(id) {
     carStore.removeProduct(id)    
 }
 
-
-
 </script>
 
 
@@ -32,9 +30,11 @@ function remove(id) {
         <RouterLink
         :to="{name:'productDetails', params: {id: props.product.id}}"
         >
-            <div>
-                <div>
-                    <img :src="props.product.thumbnail" :alt="'An img of ' + props.product.title">
+            <div class="flex">
+                <div class="bg-secundary-bg rounded-xl">
+                    <img 
+                    class="size-19"
+                    :src="props.product.thumbnail" :alt="'An img of ' + props.product.title">
                 </div>
                 <div>
                     <p>{{ props.product.title }}</p>

@@ -2,9 +2,9 @@ import { defineStore } from "pinia";
 
 
 export const useCarStore = defineStore('car', {
-    state: () =>{
-        return {carList: []}
-    },
+    state: () =>({
+        carList: JSON.parse(localStorage.getItem('carList')) || []
+    }),
     getters:{
         getPriceOfProduct: (state) =>{
             return (id) =>{
@@ -19,6 +19,9 @@ export const useCarStore = defineStore('car', {
         }
     },
     actions: {
+        saveToLocalStorage(){
+            localStorage.setItem('carList', JSON.stringify(this.carList))
+        },
         addProduct(product) {
             const existing = this.carList.find(p => p.product.id === product.id)
             if(existing){
@@ -26,13 +29,15 @@ export const useCarStore = defineStore('car', {
             }else{
                 this.carList.push({product, quantity: 1})
             }
+            this.saveToLocalStorage();
         },
         removeProduct(id){
             this.carList = this.carList.filter(p => p.product.id !== id)
         },
         increaseQuantity(id){
             const item = this.carList.find(p => p.product.id === id)
-            if (item) item.quantity += 1
+            if (item) item.quantity += 1;
+            this.saveToLocalStorage();
         },
         decreaseQuantity(id){
             const item = this.carList.find(p => p.product.id === id)
@@ -43,6 +48,7 @@ export const useCarStore = defineStore('car', {
                     this.removeProduct(id)
                 }
             }
+            this.saveToLocalStorage();
         }
     }
 })
