@@ -2,7 +2,7 @@
 import { RouterLink } from 'vue-router';
 import { useCarStore } from '../stores/car';
 import CartIcon from '../assets/CartIcon.vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import StarsRating from '../assets/StarsRating.vue';
 
 const props = defineProps({
@@ -13,8 +13,7 @@ const props = defineProps({
 });
 
 const carList = useCarStore();
-
-// const rating = ref(3.7)
+const isInCart = computed(() => carList.isInCart(props.product.id))
 
 function addProductInCar(product) {
     carList.addProduct(product);
@@ -39,11 +38,8 @@ function addProductInCar(product) {
                 <span class="text-semi-white font-medium">{{ props.product.title }}</span>
                 <div class="flex">
                     <StarsRating
-                    v-for="n in 5"
-                    :key="n" 
-                    :filled="n <= Math.round(props.product.rating)"
+                        :rating="props.product.rating"
                     />
-                    <span class="text-semi-white">{{ props.product.rating }}</span>
                 </div> 
                 <span class="font-bold text-semi-white price">${{ props.product.price }}</span>
             </section>
@@ -58,6 +54,7 @@ function addProductInCar(product) {
                 <span>
                     Add to Cart
                 </span>
+                
             </button>
         </div>
     </div>

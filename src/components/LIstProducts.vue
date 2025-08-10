@@ -55,9 +55,9 @@ watch(
 
 <template>
    <div class="flex flex-row">
-       <div>
+       <div class="bg-amber-300">
            <nav>
-               <h2>Collections</h2>
+               <h2 class="">Collections</h2>
                <ul v-if="listCategories">
                    <li v-for="category in listCategories" :key="category.id">
                         <router-link
@@ -69,8 +69,9 @@ watch(
                </ul>
            </nav>
        </div>
+
        <div v-if="listProducts.length > 0">
-           <ul>
+           <ul class="flex flex-wrap gap-5">
                <li v-for="product in listProducts" :key="product.id">
                    <ProductCard
                        :product="product"

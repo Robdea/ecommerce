@@ -2,6 +2,7 @@
 import { onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { productById } from '../services/fetchData';
+import StarsRating from '../assets/StarsRating.vue';
 
 
 const route = useRoute();
@@ -25,15 +26,26 @@ onMounted(() =>{
 </script>
 
 <template>
-    <div v-if="productData">
-        <div>
-            <section>
-                <img :src="productData.thumbnail" alt="">
+    <div v-if="productData" class="text-white flex flex-col py-10 gap-3.5 px-4">
+        <div class="flex gap-8 mb-2">
+            <section class="bg-semi-white rounded-2xl p-2">
+                <img  :src="productData.thumbnail" :alt="'Image of ' + productData.title">
             </section>
             <section>
-                <h1>{{ productData.title }}</h1>
-                <span>{{ productData.price }}</span>
-                <div>
+                <h1 class="text-3xl font-bold mb-2">{{ productData.title }}</h1>
+                <StarsRating
+                    class="mb-2"
+                    :rating="productData.rating"
+                />
+
+                <div class="mt-4">
+                    <span class="text-blue font-bold text-3xl mt-">${{ productData.price }}</span>
+                    <p class="mt-2.5">{{ productData.description }}</p>
+                </div>
+
+                <button>Add to cart</button>
+                <div class="bg-dark-blue p-3 border-2 border-light-gray">
+                    <h2>Key Features</h2>
                     <ul>
                         <li>
                             <span> {{ productData.dimensions.width }}</span>
@@ -46,20 +58,21 @@ onMounted(() =>{
                         </li>
                     </ul>
                 </div>
-                <div>
-                    <h3>About this product</h3>
-                    <p>{{ productData.description }}</p>
-                </div>
             </section>
         </div>
-        <div>
-            <h2>Reviews</h2>
-            <ul>
+
+        <h2 class="text-3xl font-bold mt-5">Reviews</h2>
+        <div class="bg-dark-blue p-3 border-2 border-light-gray">
+            <ul class="flex flex-col gap-4">
                 <li v-for="review in productData.reviews" :key="review.id">
-                    <div>
-                        <span>{{ review.rating }}</span>
-                        <span>{{ review.comment }}</span>
-                        <span>{{ review.reviewerName }}</span>
+                    <div class="flex flex-col">
+                        <div class="flex gap-4 ">
+                            <span class="font-medium">{{ review.reviewerName }}</span>
+                            <StarsRating
+                                :rating="review.rating"
+                            />
+                        </div>
+                        <p class="review-comment text-text">{{ review.comment }}</p>
                     </div>
                 </li>
             </ul>
@@ -68,6 +81,8 @@ onMounted(() =>{
 </template>
 
 
-<style lang="scss" scoped>
-
+<style >
+.review-comment{
+    font-size: 0.9em;
+}
 </style>

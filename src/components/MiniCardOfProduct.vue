@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router';
 import { useCarStore } from '../stores/car';
+import MinusMoreBttn from './MinusMoreBttn.vue';
 
 
 const props = defineProps({
@@ -21,19 +22,25 @@ function remove(id) {
 
 
 <template>
-    <div class="relative flex">
+    <div class="relative flex gap-3">
         <div class="absolute">
             <button
             @click="remove(props.product.id)"
-            >quiet</button>
+            class="bg-gray-400 text-semi-white rounded-full p-1 "
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </button>
         </div>
         <RouterLink
+        class="w-1/3"
         :to="{name:'productDetails', params: {id: props.product.id}}"
         >
-            <div class="flex">
-                <div class="bg-secundary-bg rounded-xl">
+            <div class="flex gap-1.5">
+                <div class="bg-semi-white rounded-xl">
                     <img 
-                    class="size-19"
+                    class="size-19 "
                     :src="props.product.thumbnail" :alt="'An img of ' + props.product.title">
                 </div>
                 <div>
@@ -42,23 +49,14 @@ function remove(id) {
             </div>
         </RouterLink>
 
-        <div>
-            <span>{{ carStore.getPriceOfProduct(props.product.id) }}</span>
-            <div class="flex">
-                <button 
-                class="bg-blue-400"
-                @click="carStore.decreaseQuantity(props.product.id)"
-                >
-                    less
-                </button>
-                <span>{{ props.quantity }}</span>
-                <button 
-                @click="carStore.increaseQuantity(props.product.id)"
-                class="bg-blue-400"
-                >
-                    more
-                </button>
-            </div>
+        <div class="flex flex-col">
+            <span class="self-end">${{ carStore.getPriceOfProduct(props.product.id) }}</span>
+            <MinusMoreBttn
+                v-if="props.product"
+                :quantity="props.quantity"
+                @increase="carStore.increaseQuantity(props.product.id)"
+                @decrease="carStore.decreaseQuantity(props.product.id)"
+            />
         </div>
     </div>
 </template>

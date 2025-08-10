@@ -47,7 +47,7 @@ function getNameOfProducts(params) {
 }
 
 function getProductsByName(params) {
-    return fetch(`${API_URL}/search?q=${params.title}&select=title,price,description,price,thumbnail`)
+    return fetch(`${API_URL}/search?q=${params.title}&select=title,price,description,price,thumbnail,rating`)
     .then(res => res.json())
     .then(d => d.products)
     .catch(e => {

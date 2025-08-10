@@ -17,7 +17,6 @@ function submitSearch() {
             name: 'search',
             query: {q: searchQuery.value}
         })
-
         searchQuery.value = '';
     }
 }
@@ -51,9 +50,9 @@ const carList = useCarStore();
 </script>
 
 <template>
-   <header class="flex flex-row bg-primary py-3 px-5 relative justify-between items-center">
+   <header class="flex flex-row bg-primary py-3 px-23 relative justify-between items-center">
         <RouterLink to="/">
-            <h1 class="text-blue font-bold text-3xl">
+            <h1 class="text-blue font-bold text-2xl">
                 FakeEcommerce
             </h1>
         </RouterLink>
@@ -64,27 +63,33 @@ const carList = useCarStore();
             @submit.prevent="submitSearch">    
                 <input 
                 v-model="searchQuery"
-                placeholder="serach products..."
+                placeholder="Search products..."
                 type="text"
-                class="text-text border-2 border-light-gray p-3 rounded-xl w-3/4 outline-2 focus:outline-blue"
+                class="text-text border-2 border-light-gray py-1.5 px-3.5 rounded-xl w-3/4 outline-2 focus:outline-blue"
                 />
                 <div 
                 v-if="listProducts"
                 class="absolute 
                 w-1/2
-                right-1/4
-                bg-amber-900 top-19 z-50"
+                right-60
+                rounded-b-2xl
+                top-16 z-50 p-3.5 text-semi-white bg-primary"
                 >
                     <ul>
                         <li 
                         v-for="product in listProducts" :key="product.id">
                             <RouterLink
-                            class="w-20" 
+                            class="w-full flex gap-2 hover:bg-blue p-1.5" 
                             :to="{name: 'search', query: {q: product.title}}"
                             @click="handleSearch"
                             >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                </svg>
                                 <span
-                                >{{ product.title }}</span>
+                                >
+                                    {{ product.title }}
+                                </span>
                             </RouterLink>
                         </li>
                     </ul>
@@ -107,7 +112,7 @@ const carList = useCarStore();
 
                     <button 
                     :onclick="hanldeShowCar"
-                    class="bg-amber-700 p-3 rounded-3xl">
+                    class="p-2.5 rounded-xl text-semi-white">
                         <CartIcon/>
                     </button>
                 </div>
