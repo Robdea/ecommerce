@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { getNameOfProducts } from '../services/fetchData';
 import { useCarStore } from '../stores/car';
 import MiniCardOfProduct from './MiniCardOfProduct.vue';
+import CartIcon from '../assets/CartIcon.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -100,13 +101,14 @@ const carList = useCarStore();
             <div class="relative">
                 <div class="relative">
                     
-                    <div v-if="carList.carList.product > 0" class="absolute">
+                    <div v-if="carList.carList.length > 0" class="number-products absolute text-semi-white rounded-full p-1 px-2 -left-2 -top-1 bg-red-600">
+                        {{ carList.totalProducts }}
                     </div>
 
                     <button 
                     :onclick="hanldeShowCar"
                     class="bg-amber-700 p-3 rounded-3xl">
-                        car
+                        <CartIcon/>
                     </button>
                 </div>
 
@@ -142,6 +144,9 @@ const carList = useCarStore();
 <style >
 .car{
     height: 40em;
+}
+.number-products{
+    font-size: 11px;
 }
 </style>
 

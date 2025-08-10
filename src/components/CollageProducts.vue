@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { getProductsRandom } from '../services/fetchData';
+import { RouterLink } from 'vue-router';
 
 
 const products = ref([])
@@ -16,32 +17,34 @@ onMounted(async () =>{
 });
 
 const positionClasses = [
-  'top-1 z-20',
-  'left-36',
-  'top-1/2 left-2'
+  'translate-x-[-120px] translate-y-[-40px] rotate-[-5deg]',
+  'translate-x-[40px] translate-y-[-60px] rotate-[3deg]',   
+  'translate-x-[-40px] translate-y-[60px] rotate-[2deg]'    
 ];
 
 </script>
 
 <template>
-    <section>
-        
-        <div class="relative w-1/4">
-            <div 
-            v-for="(product, index) in products.slice(0, 3)" 
-            :key="product.id" 
-            :class="'absolute', positionClasses[index]"
+  <div class="relative flex justify-center items-center w-full h-[400px]">
+    <div 
+      v-for="(product, index) in products.slice(0, 3)" 
+      :key="product.id"
+      class="absolute bg-white rounded-3xl shadow-gray-500 shadow-md p-2 hover:scale-110 hover:z-30 "
+      :class="positionClasses[index]"
+    >
+        <RouterLink
+        :to="{name:'productDetails', params: {id: product.id}}"
+        >
+            <img 
+              loading="lazy"
+              class="rounded-lg size-49 object-cover"
+              :src="product.images[0]" 
+              :alt="'Image of ' + product.title"
             >
-                <img 
-                    loading="lazy"
-                    class="rounded-lg w-2xs "
-                    :src="product.images[0]" :alt="'Image of ' + product.title"
-                >
-            </div>
-        </div>
-    </section>
+        </RouterLink>
+    </div>
+  </div>
 </template>
 
-<style lang="scss" scoped>
-
+<style >
 </style>

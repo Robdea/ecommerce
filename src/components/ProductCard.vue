@@ -1,7 +1,9 @@
 <script setup >
 import { RouterLink } from 'vue-router';
 import { useCarStore } from '../stores/car';
-
+import CartIcon from '../assets/CartIcon.vue';
+import { ref } from 'vue';
+import StarsRating from '../assets/StarsRating.vue';
 
 const props = defineProps({
     product: {
@@ -12,18 +14,18 @@ const props = defineProps({
 
 const carList = useCarStore();
 
+// const rating = ref(3.7)
+
 function addProductInCar(product) {
     carList.addProduct(product);
     console.log(carList.carList);
 }
-
 </script>
 
 <template>
     <div 
-    class="bg-secundary-bg rounded-3xl card"
-    >
-    
+    class="bg-semi-white rounded-3xl card hover:scale-104"
+    >   
         <RouterLink 
         class="z-0"
         :to="{name:'productDetails', params: {id: props.product.id}}">
@@ -35,16 +37,27 @@ function addProductInCar(product) {
             </div>
             <section class="flex flex-col p-5 bg-secundary-blue">
                 <span class="text-semi-white font-medium">{{ props.product.title }}</span>
-                <span class="font-bold text-semi-white price">{{ props.product.price }}</span>
+                <div class="flex">
+                    <StarsRating
+                    v-for="n in 5"
+                    :key="n" 
+                    :filled="n <= Math.round(props.product.rating)"
+                    />
+                    <span class="text-semi-white">{{ props.product.rating }}</span>
+                </div> 
+                <span class="font-bold text-semi-white price">${{ props.product.price }}</span>
             </section>
 
         </RouterLink>
-        <div class="bg-secundary-blue rounded-b-3xl">
+        <div class="bg-secundary-blue rounded-b-3xl p-1 flex justify-center">
             <button
             @click="addProductInCar(props.product)"
-            class="z-20 bg-neutral-500 px-6"
+            class="flex items-center justify-center gap-4 z-20 bg-blue font-medium px-6 w-11/12 py-3 rounded-4xl"
             >
-                add car
+                <CartIcon/>
+                <span>
+                    Add to Cart
+                </span>
             </button>
         </div>
     </div>
@@ -54,7 +67,6 @@ function addProductInCar(product) {
 .price{
     font-size: 1.2em;
 }
-
 .card{
     width: clamp(280px, 23vw ,330px);
 }

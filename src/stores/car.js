@@ -16,7 +16,8 @@ export const useCarStore = defineStore('car', {
             return state.carList.reduce((total, item) =>{
                 return total + (item.product.price * item.quantity)
             }, 0);
-        }
+        },
+        totalProducts: (state) =>  state.carList.reduce((total, item) => total += item.quantity ,0)
     },
     actions: {
         saveToLocalStorage(){

@@ -2,7 +2,7 @@ const API_URL = "https://dummyjson.com/products";
 
 
 function getAllProducts() {
-    return fetch(`${API_URL}?select=title,price,description,thumbnail`)
+    return fetch(`${API_URL}?select=title,price,description,thumbnail,rating`)
     .then(response => response.json())
     .then(data => data.products)
     .catch(error =>{
@@ -56,7 +56,7 @@ function getProductsByName(params) {
 }
 
 function productsByCategory(params) {
-    return fetch(`${API_URL}/category/${params.category}?select=title,price,thumbnail,description`)
+    return fetch(`${API_URL}/category/${params.category}?select=title,price,thumbnail,description,rating`)
     .then(r => r.json())
     .then(d => d.products)
     .catch(e => {
