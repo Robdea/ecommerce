@@ -26,11 +26,18 @@ export const useCarStore = defineStore('car', {
         saveToLocalStorage(){
             localStorage.setItem('carList', JSON.stringify(this.carList))
         },
-        addProduct(product) {
-            const existing = this.carList.find(p => p.product.id === product.id)
+        addProduct(addProduct) {
+            const existing = this.carList.find(p => p.product.id === addProduct.id)
             if(existing){
                 existing.quantity += 1;
             }else{
+                const product = {
+                    id: addProduct.id,
+                    price: addProduct.price,
+                    thumbnail: addProduct.thumbnail,
+                    title: addProduct.title
+                }
+
                 this.carList.push({product, quantity: 1})
             }
             this.saveToLocalStorage();

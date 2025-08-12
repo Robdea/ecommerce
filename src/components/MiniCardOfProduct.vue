@@ -22,7 +22,7 @@ function remove(id) {
 
 
 <template>
-    <div class="relative flex gap-3">
+    <div class="relative flex gap-3 border-b-3 border-light-gray w-full justify-between px-2">
         <div class="absolute">
             <button
             @click="remove(props.product.id)"
@@ -34,23 +34,23 @@ function remove(id) {
             </button>
         </div>
         <RouterLink
-        class="w-1/3"
+        class="w-30"
         :to="{name:'productDetails', params: {id: props.product.id}}"
         >
-            <div class="flex gap-1.5">
-                <div class="bg-semi-white rounded-xl">
+            <div class="flex items-center">
+                <div class="bg-semi-white rounded-xl flex items-center border-1 border-light-gray">
                     <img 
-                    class="size-19 "
+                    class="object-cover size-20"
                     :src="props.product.thumbnail" :alt="'An img of ' + props.product.title">
                 </div>
-                <div>
+                <div class="pl-3 w-10 text-semi-white">
                     <p>{{ props.product.title }}</p>
                 </div>
             </div>
         </RouterLink>
 
         <div class="flex flex-col">
-            <span class="self-end">${{ carStore.getPriceOfProduct(props.product.id) }}</span>
+            <span class="self-end mb-1 text-semi-white">${{ carStore.getPriceOfProduct(props.product.id) }}</span>
             <MinusMoreBttn
                 v-if="props.product"
                 :quantity="props.quantity"

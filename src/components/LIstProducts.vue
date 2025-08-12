@@ -55,30 +55,53 @@ watch(
 
 <template>
    <div class="flex flex-row">
-       <div class="bg-amber-300">
-           <nav>
-               <h2 class="">Collections</h2>
-               <ul v-if="listCategories">
-                   <li v-for="category in listCategories" :key="category.id">
-                        <router-link
-                            :to="{name: 'search', params:{category: category}}"
-                        >
-                            <span>{{ category }}</span>
-                        </router-link>
+        <div class="bg-amber-300 w-400 py-10 px-2 sticky">
+            <div class=" fixed">
+                <nav>
+                    <h2 class="">Collections</h2>
+                    <ul v-if="listCategories.length > 0">
+                        <li v-for="category in listCategories" :key="category.id">
+                             <router-link
+                                 :to="{name: 'search', params:{category: category}}"
+                             >
+                                 <span>{{ category }}</span>
+                             </router-link>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+       <div class="py-10">
+           <div v-if="listProducts.length > 0" >
+               <ul class="flex flex-wrap gap-5 justify-center">
+                   <li v-for="product in listProducts" :key="product.id">
+                       <ProductCard
+                           :product="product"
+                       />
                    </li>
                </ul>
-           </nav>
+           </div>
+             <div v-else>
+                <h1 class="bg-semi-white">saassad</h1>
+                <svg  
+                    xmlns="http://www.w3.org/2000/svg"  
+                    width="24"  
+                    height="24"  
+                    viewBox="0 0 24 24"  
+                    fill="none"  
+                    stroke="currentColor"  
+                    stroke-width="2"  
+                    stroke-linecap="round"  
+                    stroke-linejoin="round"  
+                    class="icon icon-tabler icons-tabler-outline icon-tabler-alert-small">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M12 8v4" />
+                    <path d="M12 16h.01" />
+                </svg>
+            </div>
        </div>
 
-       <div v-if="listProducts.length > 0">
-           <ul class="flex flex-wrap gap-5">
-               <li v-for="product in listProducts" :key="product.id">
-                   <ProductCard
-                       :product="product"
-                   />
-               </li>
-           </ul>
-       </div>
    </div>
 </template>
 

@@ -5,12 +5,15 @@
 @tailwind utilities;
 
 @custom-variant dark (&:where(.dark, .dark *)); 
+
 body{
+  height: 100dvh;
   height: 100vh;
 }
 
 #app{
   height: 100%;
+  width: 100%;
 }
 
 @theme{

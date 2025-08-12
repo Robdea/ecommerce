@@ -29,6 +29,7 @@ onMounted(async () =>{
         <CollageProducts/>
       </div>
 
+      
       <div
       class="p-3.5 pt-20"
       >
@@ -48,6 +49,6 @@ onMounted(async () =>{
 <style>
 .container-cards{
   width: 100%;
-  min-width: 600px;
+  /* min-width: 600px; */
 }
 </style>

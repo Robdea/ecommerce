@@ -29,7 +29,7 @@ const positionClasses = [
     <div 
       v-for="(product, index) in products.slice(0, 3)" 
       :key="product.id"
-      class="absolute bg-white rounded-3xl shadow-gray-500 shadow-md p-2 hover:scale-110 hover:z-30 "
+      class="absolute bg-white   rounded-3xl shadow-gray-500 shadow-md p-2 hover:scale-110 hover:z-30 "
       :class="positionClasses[index]"
     >
         <RouterLink
@@ -37,7 +37,7 @@ const positionClasses = [
         >
             <img 
               loading="lazy"
-              class="rounded-lg size-49 object-cover"
+              class="rounded-lg card-product object-cover"
               :src="product.images[0]" 
               :alt="'Image of ' + product.title"
             >
@@ -47,4 +47,9 @@ const positionClasses = [
 </template>
 
 <style >
+.card-product{
+  height: clamp(110px, 20vh,210px);
+  width: clamp(130px, 20vw,210px);
+}
+
 </style>

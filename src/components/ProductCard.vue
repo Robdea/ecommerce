@@ -48,13 +48,12 @@ function addProductInCar(product) {
         <div class="bg-secundary-blue rounded-b-3xl p-1 flex justify-center">
             <button
             @click="addProductInCar(props.product)"
-            class="flex items-center justify-center gap-4 z-20 bg-blue font-medium px-6 w-11/12 py-3 rounded-4xl"
+            class="flex md:flex-row cursor-pointer hover:bg-blue-400 flex-col items-center justify-center  gap-4 z-20 bg-blue font-medium md:px-6 px-2 w-11/12 py-3 rounded-4xl"
             >
                 <CartIcon/>
                 <span>
                     Add to Cart
                 </span>
-                
             </button>
         </div>
     </div>
@@ -65,6 +64,6 @@ function addProductInCar(product) {
     font-size: 1.2em;
 }
 .card{
-    width: clamp(280px, 23vw ,330px);
+    width: clamp(328px, 23vw ,350px);
 }
 </style>
