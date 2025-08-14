@@ -5,6 +5,7 @@ import { getNameOfProducts } from '../services/fetchData';
 import { useCarStore } from '../stores/car';
 import MiniCardOfProduct from './MiniCardOfProduct.vue';
 import CartIcon from '../assets/CartIcon.vue';
+import { useWindowSize } from '../composables/isMoviel';
 
 const route = useRoute();
 const router = useRouter();
@@ -49,6 +50,8 @@ function hiddenScroll() {
     }
 }
 
+const {isMobile, windowWidth} = useWindowSize(630);
+
 function hanldeShowCar() {
     cartListModal.value = !cartListModal.value
     hiddenScroll()
@@ -70,16 +73,20 @@ const carList = useCarStore();
                      </h1>
                  </RouterLink>
          
-                 <div class="flex flex-row gap-3 items-center justify-end w-3/5">
+                <div class="flex flex-row gap-3 items-center justify-end w-3/5">
                      <form 
-                     class="flex flex-row gap-2 w-3/4"
+                     class="flex flex-row gap-2 sm:w-3/4  w-1/4"
                      @submit.prevent="submitSearch">    
-                         <input 
-                         v-model="searchQuery"
-                         placeholder="Search products..."
-                         type="text"
-                         class="text-semi-white border-2 border-light-gray py-1.5 px-3.5 rounded-xl w-3/4 outline-2 focus:outline-blue"
-                         />
+                        
+                        <template v-if="!isMobile">
+                            <input 
+                             v-model="searchQuery"
+                             placeholder="Search products..."
+                             type="text"
+                             class="text-semi-white border-2 border-light-gray py-1.5 px-3.5 rounded-xl w-3/4 outline-2 focus:outline-blue"
+                             />
+                        </template>
+
                          <div 
                          v-if="listProducts.length > 0"
                          class="absolute 
@@ -108,7 +115,7 @@ const carList = useCarStore();
                              </ul>
                          </div>
                          <button 
-                         class="hover:bg-blue px-4 rounded-xl text-semi-white"
+                         class="hover:bg-light-blue px-2 rounded-xl text-semi-white p-1"
                          type="submit">
                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
@@ -118,14 +125,12 @@ const carList = useCarStore();
          
                     <div class="relative">
                             <div class="relative">
-                                
                                 <div v-if="carList.carList.length > 0" class="number-products absolute text-semi-white rounded-full p-1 px-2 -left-2 -top-1 bg-red-600">
                                     {{ carList.totalProducts }}
                                 </div>
-            
                                 <button 
                                 :onclick="hanldeShowCar"
-                                class="p-2.5 rounded-xl text-semi-white">
+                                class="p-2.5 rounded-xl text-semi-white hover:bg-light-blue">
                                     <CartIcon/>
                                 </button>
                             </div>

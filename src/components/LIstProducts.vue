@@ -55,24 +55,23 @@ watch(
 
 <template>
    <div class="flex flex-row">
-        <div class="bg-amber-300 w-400 py-10 px-2 sticky">
-            <div class=" fixed">
-                <nav>
-                    <h2 class="">Collections</h2>
-                    <ul v-if="listCategories.length > 0">
-                        <li v-for="category in listCategories" :key="category.id">
-                             <router-link
-                                 :to="{name: 'search', params:{category: category}}"
-                             >
-                                 <span>{{ category }}</span>
-                             </router-link>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+        <div class=" w-48  h-screen sticky top-14 overflow-y-auto p-4 text-semi-white backdrop-brightness-50">
+            <nav>
+                <h2 class="mb-2 font-bold">Collections</h2>
+                <ul v-if="listCategories.length > 0">
+                    <li v-for="category in listCategories" :key="category.id" class="mb-1 category">
+                        <router-link
+                            :to="{ name: 'search', params:{ category: category } }"
+                            class="hover:underline"
+                        >
+                            {{ category }}
+                        </router-link>
+                    </li>
+                </ul>
+            </nav>
         </div>
 
-       <div class="py-10">
+       <div class="py-10 flex-1">
            <div v-if="listProducts.length > 0" >
                <ul class="flex flex-wrap gap-5 justify-center">
                    <li v-for="product in listProducts" :key="product.id">
@@ -101,9 +100,11 @@ watch(
                 </svg>
             </div>
        </div>
-
    </div>
 </template>
 
-<style lang="scss" scoped>
+<style >
+    .category{
+        font-size: 13.5px;
+    }
 </style>

@@ -19,9 +19,9 @@ onMounted(async () =>{
 </script>
 
 <template>
-    <div class="container-cards flex flex-col">
+    <div class="container-cards flex flex-col ">
       <div
-      class="flex flex-col gap-18 items-center bg-linear-to-t from-blue to-indigo-500 h-120 w-full px-5 py-10"
+      class="flex flex-col gap-18 items-center justify-center bg-linear-to-t from-blue to-indigo-500 h-120 w-full px-5 py-10"
       >
         <div class="text-5xl font-bold flex text-center">
           <h1 class="text-primary">Discover The Best Products <span class="text-semi-white block">For Your Lifestyle</span></h1>
@@ -41,7 +41,6 @@ onMounted(async () =>{
           </li>
         </ul>
       </div>
-      <div>list categories </div>
     </div>
 </template>
 

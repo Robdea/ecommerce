@@ -15,6 +15,7 @@ const props = defineProps({
 const carList = useCarStore();
 const isInCart = computed(() => carList.isInCart(props.product.id))
 
+
 function addProductInCar(product) {
     carList.addProduct(product);
     console.log(carList.carList);
@@ -48,7 +49,7 @@ function addProductInCar(product) {
         <div class="bg-secundary-blue rounded-b-3xl p-1 flex justify-center">
             <button
             @click="addProductInCar(props.product)"
-            class="flex md:flex-row cursor-pointer hover:bg-blue-400 flex-col items-center justify-center  gap-4 z-20 bg-blue font-medium md:px-6 px-2 w-11/12 py-3 rounded-4xl"
+            class="flex  cursor-pointer hover:bg-blue-400  items-center justify-center  gap-4 z-20 bg-blue font-medium md:px-6 px-2 w-11/12 py-3 rounded-4xl"
             >
                 <CartIcon/>
                 <span>

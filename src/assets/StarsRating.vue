@@ -1,4 +1,6 @@
 <script setup>
+import { computed } from 'vue';
+
 const props = defineProps({
   rating: {
     type: Number,
@@ -10,6 +12,9 @@ const props = defineProps({
   }
 });
 console.log(props.rating);
+
+const rating = computed(() => props.rating.toFixed(1))
+
 </script>
 
 <template>
@@ -50,7 +55,7 @@ console.log(props.rating);
            0 0 0 .475-.345L11.48 3.5Z"
       />
     </svg>
-    <span class="ml-2 text-semi-white">{{ props.rating }}</span>
+    <span class="ml-2 text-semi-white">{{ rating }}</span>
   </div>
 </template>
 <style>

@@ -14,11 +14,13 @@ body{
 #app{
   height: 100%;
   width: 100%;
+  background-color: #0b121c;
 }
 
 @theme{
     --color-primary: #0b121c;
     --color-blue: #70a8f7;
+    --color-light-blue: #79affa66;
     --color-secundary: #0c131d;
     --color-light-gray: #1d2530;
     --color-text: #98a4b3;

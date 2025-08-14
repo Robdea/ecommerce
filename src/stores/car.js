@@ -13,14 +13,15 @@ export const useCarStore = defineStore('car', {
             }
         },
         cartTotal: (state) =>{
-            return state.carList.reduce((total, item) =>{
+            const total = state.carList.reduce((total, item) =>{
                 return total + (item.product.price * item.quantity)
             }, 0);
+            return total.toFixed(2)
         },
         totalProducts: (state) =>  state.carList.reduce((total, item) => total += item.quantity ,0),
         isInCart: (state) => (id) =>{
             return state.carList.some(p => p.product.id === id)
-        }
+        },
     },
     actions: {
         saveToLocalStorage(){
@@ -44,6 +45,7 @@ export const useCarStore = defineStore('car', {
         },
         removeProduct(id){
             this.carList = this.carList.filter(p => p.product.id !== id)
+            this.saveToLocalStorage();
         },
         increaseQuantity(id){
             const item = this.carList.find(p => p.product.id === id)
