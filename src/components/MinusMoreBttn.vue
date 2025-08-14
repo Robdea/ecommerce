@@ -12,7 +12,7 @@ const emit = defineEmits(['increase', 'decrease']);
 </script>
 
 <template>
-     <div class="flex bg-blue gap-2 p-1 px-2.5 rounded-3xl border-2 border-gray-50 text-light-gray">
+     <div class="flex bg-blue gap-2 p-1 px-2.5 rounded-3xl border-2 border-light-gray text-light-gray">
         <button 
         @click="emit('decrease')"
         >

@@ -3,7 +3,6 @@ import { RouterLink } from 'vue-router';
 import { useCarStore } from '../stores/car';
 import MinusMoreBttn from './MinusMoreBttn.vue';
 
-
 const props = defineProps({
     product: {
         type: Object,
@@ -20,7 +19,6 @@ function remove(id) {
 
 </script>
 
-
 <template>
     <div class="relative flex gap-3 border-b-3 border-light-gray w-full justify-between px-2">
         <div class="absolute">
@@ -33,23 +31,24 @@ function remove(id) {
                 </svg>
             </button>
         </div>
-        <RouterLink
-        class="w-30"
-        :to="{name:'productDetails', params: {id: props.product.id}}"
-        >
-            <div class="flex items-center">
-                <div class="bg-semi-white rounded-xl flex items-center border-1 border-light-gray">
-                    <img 
-                    class="object-cover size-20"
-                    :src="props.product.thumbnail" :alt="'An img of ' + props.product.title">
+        <div class="flex-1">
+            <RouterLink
+            class="w-30"
+            :to="{name:'productDetails', params: {id: props.product.id}}"
+            >
+                <div class="flex items-center ">
+                    <div class="bg-semi-white rounded-xl flex items-center border-1 border-light-gray">
+                        <img 
+                        class="object-cover size-20"
+                        :src="props.product.thumbnail" :alt="'An img of ' + props.product.title">
+                    </div>
+                    <div class="pl-3 w-2/3 text-semi-white">
+                        <p>{{ props.product.title }}</p>
+                    </div>
                 </div>
-                <div class="pl-3 w-10 text-semi-white">
-                    <p>{{ props.product.title }}</p>
-                </div>
-            </div>
-        </RouterLink>
-
-        <div class="flex flex-col">
+            </RouterLink>
+        </div>
+        <div class="flex flex-col ">
             <span class="self-end mb-1 text-semi-white">${{ carStore.getPriceOfProduct(props.product.id) }}</span>
             <MinusMoreBttn
                 v-if="props.product"
@@ -61,7 +60,5 @@ function remove(id) {
     </div>
 </template>
 
-
-<style lang="scss" scoped>
-
+<style>
 </style>

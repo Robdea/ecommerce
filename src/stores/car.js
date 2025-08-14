@@ -9,7 +9,8 @@ export const useCarStore = defineStore('car', {
         getPriceOfProduct: (state) =>{
             return (id) =>{
                 const item = state.carList.find(p => p.product.id ===id)
-                return item ? item.product.price * item.quantity : 0;
+                const result = item ? item.product.price * item.quantity : 0 
+                return result.toFixed(2);
             }
         },
         cartTotal: (state) =>{
