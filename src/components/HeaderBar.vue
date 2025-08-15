@@ -6,6 +6,7 @@ import { useCarStore } from '../stores/car';
 import MiniCardOfProduct from './MiniCardOfProduct.vue';
 import CartIcon from '../assets/CartIcon.vue';
 import { useWindowSize } from '../composables/isMoviel';
+import ResultSearch from './ResultSearch.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -50,11 +51,20 @@ function hiddenScroll() {
     }
 }
 
-const {isMobile, windowWidth} = useWindowSize(630);
+const {isMobile} = useWindowSize(630);
 
 function hanldeShowCar() {
     cartListModal.value = !cartListModal.value
     hiddenScroll()
+}
+
+const showResultList = ref(false)
+
+const modalRef = ref(null)
+
+const handleShowResultList = ()=>{
+    showResultList.value = true;
+    modalRef.value.showModal()
 }
 
 const carList = useCarStore();
@@ -80,49 +90,59 @@ const carList = useCarStore();
                         
                         <template v-if="!isMobile">
                             <input 
-                             v-model="searchQuery"
-                             placeholder="Search products..."
-                             type="text"
-                             class="text-semi-white border-2 border-light-gray py-1.5 px-3.5 rounded-xl w-3/4 outline-2 focus:outline-blue"
-                             />
+                                v-model="searchQuery"
+                                placeholder="Search products..."
+                                type="text"
+                                class="text-semi-white border-2 border-light-gray py-1.5 px-3.5 rounded-xl w-3/4 outline-2 focus:outline-blue"
+                            />
+                                <div 
+                                v-if="listProducts.length > 0"
+                                class="absolute w-1/2 md:right-60 right-30 rounded-b-2xl top-16 z-50 p-3.5 text-semi-white bg-primary"
+                                    >
+                                <ResultSearch
+                                    :list-products="listProducts"
+                                    :handle-search="handleSearch"
+                                />
+                            </div>
                         </template>
-
-                         <div 
-                         v-if="listProducts.length > 0"
-                         class="absolute 
-                         w-1/2
-                         right-60
-                         rounded-b-2xl
-                         top-16 z-50 p-3.5 text-semi-white bg-primary"
-                         >
-                             <ul>
-                                 <li 
-                                 v-for="product in listProducts" :key="product.id">
-                                     <RouterLink
-                                     class="w-full flex gap-2 hover:bg-blue p-1.5" 
-                                     :to="{name: 'search', query: {q: product.title}}"
-                                     @click="handleSearch"
-                                     >
-                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                             <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                                         </svg>
-                                         <span
-                                         >
-                                             {{ product.title }}
-                                         </span>
-                                     </RouterLink>
-                                 </li>
-                             </ul>
-                         </div>
-                         <button 
+                        <template v-else>
+                            <dialog class="h-full w-full modal-show-results " ref="modalRef">
+                                <div class="h-full w-full py-20 flex justify-center">
+                                    <div>
+                                        <div class="flex items-center gap-1.5 bg-light-gray py-4 rounded-3xl px-3.5 mb-1">
+                                            <input 
+                                                v-model="searchQuery"
+                                                placeholder="Search products..."
+                                                type="text"
+                                                class="text-semi-white border-2 border-light-gray py-1.5 px-3.5 rounded-xl w-3/4 min-w-50 outline-2 focus:outline-blue"
+                                            />     
+                                            <button 
+                                            class="hover:bg-light-blue px-2 rounded-xl text-semi-white p-1"
+                                            type='submit'>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                                                </svg>
+                                            </button>   
+                                        </div>
+                                        <ResultSearch
+                                            class="text-semi-white bg-light-gray p-1 rounded-3xl h-80 overflow-auto"
+                                            :list-products="listProducts"
+                                            :handle-search="handleSearch"
+                                        />                       
+                                    </div>
+                                </div>
+                            </dialog>
+                        </template>    
+                        <button 
                          class="hover:bg-light-blue px-2 rounded-xl text-semi-white p-1"
-                         type="submit">
+                         @click="handleShowResultList"
+                         :type="isMobile ? 'button' : 'submit'">
                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                              </svg>
-                         </button>    
+                        </button>   
                      </form>
-         
+
                     <div class="relative">
                             <div class="relative">
                                 <div v-if="carList.carList.length > 0" class="number-products absolute text-semi-white rounded-full p-1 px-2 -left-2 -top-1 bg-red-600">
@@ -184,6 +204,12 @@ const carList = useCarStore();
     width: 100%;
     height: calc(100vh - 60px); /* Solo viewport disponible */
     background-color: rgba(0, 0, 0, 0.515);
+}
+.modal-show-results::backdrop{
+  background-color: rgba(0, 0, 0, 0.5); /* overlay */
+}
+.modal-show-results{
+  background-color: rgba(0, 0, 0, 0); /* overlay */
 }
 </style>
 
