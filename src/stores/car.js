@@ -50,7 +50,6 @@ export const useCarStore = defineStore('car', {
         },
         increaseQuantity(id){
             const item = this.carList.find(p => p.product.id === id)
-            console.log(item);
             if (item) item.quantity += 1;
             this.saveToLocalStorage();
         },

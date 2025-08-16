@@ -11,7 +11,6 @@ const props = defineProps({
     default: 5
   }
 });
-console.log(props.rating);
 
 const rating = computed(() => props.rating.toFixed(1))
 

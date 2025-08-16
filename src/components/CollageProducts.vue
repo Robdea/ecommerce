@@ -9,8 +9,6 @@ const products = ref([])
 onMounted(async () =>{
     try {
         products.value = await getProductsRandom();
-        console.log(products.value);  
-        console.log(products.value[0].images[0]);   
     } catch (error) {
         console.error(error);
     }

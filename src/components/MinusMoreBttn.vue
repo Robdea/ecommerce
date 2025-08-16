@@ -12,8 +12,9 @@ const emit = defineEmits(['increase', 'decrease']);
 </script>
 
 <template>
-     <div class="flex bg-blue gap-2 p-1 px-2.5 rounded-3xl border-2 border-light-gray text-light-gray">
+     <div class="flex bg-blue gap-2 p-1 px-2.5 rounded-3xl border-2 border-light-gray text-light-gray font-medium">
         <button 
+        class="cursor-pointer"
         @click="emit('decrease')"
         >
             <svg 
@@ -37,6 +38,7 @@ const emit = defineEmits(['increase', 'decrease']);
 
         <span>{{ quantity }}</span>
         <button 
+        class="cursor-pointer"
         @click="emit('increase')"
         >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">

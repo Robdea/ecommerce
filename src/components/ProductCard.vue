@@ -18,7 +18,6 @@ const isInCart = computed(() => carList.isInCart(props.product.id))
 
 function addProductInCar(product) {
     carList.addProduct(product);
-    console.log(carList.carList);
 }
 </script>
 

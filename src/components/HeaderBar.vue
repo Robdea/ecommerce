@@ -3,15 +3,16 @@ import { ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getNameOfProducts } from '../services/fetchData';
 import { useCarStore } from '../stores/car';
-import MiniCardOfProduct from './MiniCardOfProduct.vue';
 import CartIcon from '../assets/CartIcon.vue';
 import { useWindowSize } from '../composables/isMoviel';
 import ResultSearch from './ResultSearch.vue';
+import ModalCart from './ModalCart.vue';
 
 const route = useRoute();
 const router = useRouter();
 const searchQuery = ref(route.query.q || '');
 const listProducts = ref([]);
+const {isMobile} = useWindowSize(630);
 
 function submitSearch() {
     if(searchQuery.value.trim().length >= 3){
@@ -19,6 +20,7 @@ function submitSearch() {
             name: 'search',
             query: {q: searchQuery.value}
         })
+        if(isMobile) modalRef.value.close()
         searchQuery.value = '';
     }
 }
@@ -27,7 +29,6 @@ watch(searchQuery, async (newValue) =>{
     if(newValue.trim().length >= 3){
         try {
             listProducts.value = await getNameOfProducts({title: newValue});
-            console.log(listProducts.value);
         } catch (error) {
             console.error(error.message);
         }
@@ -51,7 +52,6 @@ function hiddenScroll() {
     }
 }
 
-const {isMobile} = useWindowSize(630);
 
 function hanldeShowCar() {
     cartListModal.value = !cartListModal.value
@@ -64,10 +64,24 @@ const modalRef = ref(null)
 
 const handleShowResultList = ()=>{
     showResultList.value = true;
+    hiddenScroll()
     modalRef.value.showModal()
 }
-
 const carList = useCarStore();
+
+function handleCloseModal() {
+    modalRef.value.close()
+}
+
+
+function closeModalCart() {
+    if(cartListModal) cartListModal.value = false
+}
+
+function handleCloseModalCart() {
+ cartListModal.value = false; 
+ hiddenScroll()
+}
 
 </script>
 
@@ -85,9 +99,9 @@ const carList = useCarStore();
          
                 <div class="flex flex-row gap-3 items-center justify-end w-3/5">
                      <form 
+                     @click="closeModalCart"
                      class="flex flex-row gap-2 sm:w-3/4  w-1/4"
                      @submit.prevent="submitSearch">    
-                        
                         <template v-if="!isMobile">
                             <input 
                                 v-model="searchQuery"
@@ -96,19 +110,23 @@ const carList = useCarStore();
                                 class="text-semi-white border-2 border-light-gray py-1.5 px-3.5 rounded-xl w-3/4 outline-2 focus:outline-blue"
                             />
                                 <div 
-                                v-if="listProducts.length > 0"
-                                class="absolute w-1/2 md:right-60 right-30 rounded-b-2xl top-16 z-50 p-3.5 text-semi-white bg-primary"
-                                    >
-                                <ResultSearch
-                                    :list-products="listProducts"
-                                    :handle-search="handleSearch"
-                                />
-                            </div>
+                                    v-if="listProducts.length > 0"
+                                    class="absolute w-1/2 md:right-60 right-30 rounded-b-2xl top-16 z-50 p-3.5 text-semi-white bg-primary"
+                                        >
+                                    <ResultSearch
+                                        :list-products="listProducts"
+                                        :handle-search="handleSearch"
+                                    />
+                                </div>
                         </template>
                         <template v-else>
-                            <dialog class="h-full w-full modal-show-results " ref="modalRef">
-                                <div class="h-full w-full py-20 flex justify-center">
-                                    <div>
+                            <dialog 
+                            class="h-full w-full modal-show-results" 
+                            ref="modalRef">
+                                <div 
+                                @click="handleCloseModal"
+                                class="h-full w-full py-20 flex justify-center">
+                                    <div @click.stop class="h-fit">
                                         <div class="flex items-center gap-1.5 bg-light-gray py-4 rounded-3xl px-3.5 mb-1">
                                             <input 
                                                 v-model="searchQuery"
@@ -125,7 +143,8 @@ const carList = useCarStore();
                                             </button>   
                                         </div>
                                         <ResultSearch
-                                            class="text-semi-white bg-light-gray p-1 rounded-3xl h-80 overflow-auto"
+                                            v-if="listProducts.length > 0"
+                                            class="text-semi-white bg-light-gray p-2 rounded-3xl h-80 overflow-auto"
                                             :list-products="listProducts"
                                             :handle-search="handleSearch"
                                         />                       
@@ -135,7 +154,7 @@ const carList = useCarStore();
                         </template>    
                         <button 
                          class="hover:bg-light-blue px-2 rounded-xl text-semi-white p-1"
-                         @click="handleShowResultList"
+                        v-on="isMobile ? { click: handleShowResultList } : {}"
                          :type="isMobile ? 'button' : 'submit'">
                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
@@ -157,40 +176,12 @@ const carList = useCarStore();
                     </div>
                  </div>
            </header>
-   
-           <div 
-            ref="modalCart"
-            @click="cartListModal = false; hiddenScroll()"
-            v-if="cartListModal"
-            class="absolute z-100 modal-cart"
-                >
-                    <div class="w-full relative flex justify-end h-full">
-                        <div 
-                        @click.stop
-                        class="bg-primary border-l-3 border-light-gray w-120 z-100 p-5">
-                            <h1 class="text-2xl font-medium text-semi-white mb-3">My cart</h1>
-                            <ul 
-                            class="h-3/4 overflow-y-auto flex flex-col gap-2"
-                            v-if="carList.carList.length > 0"
-                                >
-                                <li 
-                                v-for="product in carList.carList" :key="product.id">
-                                    <MiniCardOfProduct
-                                        :product="product.product"
-                                        :quantity="product.quantity"
-                                    />
-                                </li>
-                            </ul>
-    
-                            <div v-else>
-                                <h1>Aun no hay productos xd</h1>
-                            </div>
-                            <div class="text-semi-white">
-                                <span>Total: {{ carList.cartTotal }}</span>
-                            </div>
-                        </div>
-                    </div>
-            </div>
+
+            <ModalCart 
+            :cart-list-modal="cartListModal"
+            :modal-cart="modalCart"
+            :handle-show="handleCloseModalCart"
+            />
         </div>
     </div>
 </template>

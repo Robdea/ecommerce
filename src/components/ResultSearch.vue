@@ -1,13 +1,9 @@
 <script setup>
 import { RouterLink } from 'vue-router';
-
-
 const props = defineProps({
     listProducts: Array,
     handleSearch: Function
 });
-
-
 </script>
 
 <template>
@@ -30,7 +26,6 @@ const props = defineProps({
         </li>
     </ul>
 </template>
-
 
 <style lang="scss" scoped>
 

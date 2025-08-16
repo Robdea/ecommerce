@@ -19,7 +19,6 @@ async function fetchProducts() {
         } else if (categoryParam.value) {
             const res = await productsByCategory({ category: categoryParam.value });
             listProducts.value = res;
-            console.log(listProducts.value);
         } else {
             listProducts.value = []; 
         }
@@ -33,7 +32,6 @@ async function getCategories() {
     try{
         const res = await getCategoryList();
         listCategories.value = res;
-        console.log("Categories fetched:", listCategories.value);
     }catch(e){
         console.error(e);
     }
@@ -66,7 +64,10 @@ const {isMobile} = useWindowSize(730);
                 <h2 class="mb-2 font-bold">Collections</h2>
                 <template v-if="!isMobile">
                     <ul v-if="listCategories.length > 0">
-                        <li v-for="category in listCategories" :key="category.id" class="mb-1 category">
+                        <li 
+                        v-for="category in listCategories" :key="category.id" 
+                        :class="category === categoryParam ? 'underline' : ''"
+                        class="mb-1 category">
                             <router-link
                                 :to="{ name: 'search', params:{ category: category } }"
                                 class="hover:underline"
@@ -76,21 +77,25 @@ const {isMobile} = useWindowSize(730);
                         </li>
                     </ul>
                 </template>
+
                 <template v-else>
                     <div >
                         <div 
                         @click="showCategories = !showCategories"
                         class="rounded-xl border-2 border-light-blue h-10 items-center flex">
                             <div>
-                                <p class="p-2">All</p>
+                                <p class="p-2">{{ categoryParam ? categoryParam : 'Select category' }}</p>
                                 <div 
                                 v-if="showCategories"
                                 @click.stop
                                 class="absolute bg-light-gray h-45 overflow-auto w-11/12 rounded-xl list-none p-3 top-25 z-90 ">
-                                    <li class="p-1.5" v-for="category in listCategories" :key="category.id">
+                                    <li 
+                                    class="p-1.5" v-for="category in listCategories" 
+                                    :class="category === categoryParam ? 'underline' : ''"
+                                    :key="category.id">
                                         <router-link
                                             :to="{ name: 'search', params:{ category: category } }"
-                                            class="hover:underline"
+                                            class="hover:underline w-full block"
                                         >
                                             <span>{{ category }}</span>
                                         </router-link>
@@ -113,8 +118,9 @@ const {isMobile} = useWindowSize(730);
                    </li>
                </ul>
            </div>
-             <div v-else>
-                <h1 class="bg-semi-white">saassad</h1>
+             <div 
+             class="flex flex-col items-center w-full py-8 text-amber-50 h-full text-2xl"
+             v-else>
                 <svg  
                     xmlns="http://www.w3.org/2000/svg"  
                     width="24"  
@@ -125,11 +131,12 @@ const {isMobile} = useWindowSize(730);
                     stroke-width="2"  
                     stroke-linecap="round"  
                     stroke-linejoin="round"  
-                    class="icon icon-tabler icons-tabler-outline icon-tabler-alert-small">
+                    class="size-30">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                     <path d="M12 8v4" />
                     <path d="M12 16h.01" />
                 </svg>
+                <h2 class="font-medium">No products found</h2>
             </div>
        </div>
    </div>

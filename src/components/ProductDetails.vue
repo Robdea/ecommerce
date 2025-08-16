@@ -15,7 +15,6 @@ const productData = ref(null);
 const loadProduct = async (id) =>{
     try {
         productData.value = await productById({id});
-        console.log(productData.value);
     } catch (error) {
         console.error(error.message);
     }
@@ -51,7 +50,7 @@ onMounted(() =>{
 
                 <button 
                 @click="cartStore.addProduct(productData)"
-                class="bg-blue px-6 py-2 rounded-xl cursor-pointer hover:bg-blue-400 text-light-gray font-medium w-1/2 mb-6 flex justify-center gap-5">
+                class="bg-blue px-6 py-2 rounded-xl cursor-pointer hover:bg-blue-400 text-light-gray font-medium md:w-1/2 w-3/4 mb-6 flex justify-center gap-5">
                     <CartIcon/>
                     <span>
                         Add to cart

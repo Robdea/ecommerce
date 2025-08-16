@@ -24,7 +24,7 @@ function remove(id) {
         <div class="absolute">
             <button
             @click="remove(props.product.id)"
-            class="bg-gray-400 text-semi-white rounded-full p-1 "
+            class="bg-gray-400 text-light-gray rounded-full p-1 cursor-pointer hover:scale-105"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />

@@ -10,7 +10,6 @@ onMounted(async () =>{
   try{
     products.value = await getAllProducts();
     
-    console.log(products.value);
   }catch(error){
     console.error(error);
   }
