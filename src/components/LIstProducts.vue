@@ -10,6 +10,7 @@ const categoryParam = ref(route.params.category || '');
 const searchQuery = ref(route.query.q || '');
 const listProducts = ref([]);
 const listCategories = ref([]);
+const showCategories = ref(false);
 
 async function fetchProducts() {
     try {
@@ -22,6 +23,8 @@ async function fetchProducts() {
         } else {
             listProducts.value = []; 
         }
+        window.scrollTo({top:0, behavior: "smooth"})
+        showCategories.value = false
     } catch (e) {
         console.error(e);
     }
@@ -50,8 +53,6 @@ watch(
         fetchProducts()
     } 
 );
-
-const showCategories = ref(false);
 
 const {isMobile} = useWindowSize(730);
 

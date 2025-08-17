@@ -13,21 +13,28 @@ const router = useRouter();
 const searchQuery = ref(route.query.q || '');
 const listProducts = ref([]);
 const {isMobile} = useWindowSize(630);
+const showSearchList = ref(false);
 
 function submitSearch() {
     if(searchQuery.value.trim().length >= 3){
+        console.log("sss");
         router.push({
             name: 'search',
             query: {q: searchQuery.value}
         })
-        if(isMobile) modalRef.value.close()
+        if(isMobile && modalRef.value) {modalRef.value.close()}
+
         searchQuery.value = '';
+        showSearchList.value = false; 
+        window.scrollTo({top:0, behavior: "smooth"})
+        
     }
 }
 
 watch(searchQuery, async (newValue) =>{
     if(newValue.trim().length >= 3){
         try {
+            showSearchList.value = true
             listProducts.value = await getNameOfProducts({title: newValue});
         } catch (error) {
             console.error(error.message);
@@ -110,7 +117,7 @@ function handleCloseModalCart() {
                                 class="text-semi-white border-2 border-light-gray py-1.5 px-3.5 rounded-xl w-3/4 outline-2 focus:outline-blue"
                             />
                                 <div 
-                                    v-if="listProducts.length > 0"
+                                    v-if="listProducts.length > 0 && showSearchList"
                                     class="absolute w-1/2 md:right-60 right-30 rounded-b-2xl top-16 z-50 p-3.5 text-semi-white bg-primary"
                                         >
                                     <ResultSearch
@@ -126,8 +133,8 @@ function handleCloseModalCart() {
                                 <div 
                                 @click="handleCloseModal"
                                 class="h-full w-full py-20 flex justify-center">
-                                    <div @click.stop class="h-fit">
-                                        <div class="flex items-center gap-1.5 bg-light-gray py-4 rounded-3xl px-3.5 mb-1">
+                                    <div @click.stop class="h-fit w-full ml-5">
+                                        <div class="flex items-center gap-5 bg-light-gray py-4 rounded-3xl px-9 mb-1">
                                             <input 
                                                 v-model="searchQuery"
                                                 placeholder="Search products..."
@@ -137,14 +144,14 @@ function handleCloseModalCart() {
                                             <button 
                                             class="hover:bg-light-blue px-2 rounded-xl text-semi-white p-1"
                                             type='submit'>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                                                 </svg>
                                             </button>   
                                         </div>
                                         <ResultSearch
                                             v-if="listProducts.length > 0"
-                                            class="text-semi-white bg-light-gray p-2 rounded-3xl h-80 overflow-auto"
+                                            class="text-semi-white bg-light-gray p-2 rounded-3xl h-fit max-h-80 overflow-auto"
                                             :list-products="listProducts"
                                             :handle-search="handleSearch"
                                         />                       

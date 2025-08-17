@@ -3,6 +3,7 @@ import ProductCard from './ProductCard.vue';
 import {getAllProducts} from '../services/fetchData.js'
 import { onMounted, ref } from 'vue';
 import CollageProducts from './CollageProducts.vue';
+import HorizontalScroll from './HorizontalScroll.vue';
 
 const products = ref([]);
 
