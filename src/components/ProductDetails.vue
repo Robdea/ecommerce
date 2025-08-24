@@ -1,15 +1,17 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import {  ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { productById } from '../services/fetchData';
+import { productById, productsByCategory } from '../services/fetchData';
 import StarsRating from '../assets/StarsRating.vue';
 import CartIcon from '../assets/CartIcon.vue';
 import { useCarStore } from '../stores/car';
+import HorizontalScroll from './HorizontalScroll.vue'
 
 
 const route = useRoute();
 
 const productData = ref(null);
+const productsRelation = ref([]);
 
 
 const loadProduct = async (id) =>{
@@ -20,11 +22,26 @@ const loadProduct = async (id) =>{
     }
 }
 
+const loadRelationProducts = async (category) =>{
+    try {
+        productsRelation.value = await productsByCategory({category})  
+    } catch (error) {
+        console.error(error);
+    }
+}
 const cartStore = useCarStore()
 
-onMounted(() =>{
-    loadProduct(route.params.id)
-});
+watch(
+  () => route.params.id,
+  async (newId) => {
+    await loadProduct(newId); 
+    if (productData.value?.category) {
+      await loadRelationProducts(productData.value.category); 
+      console.log(productsRelation.value); 
+    }
+  },
+  { immediate: true }
+);
 
 </script>
 
@@ -73,21 +90,30 @@ onMounted(() =>{
             </section>
         </div>
 
-        <h2 class="text-3xl font-bold mt-5">Reviews</h2>
-        <div class="bg-dark-blue p-3 border-2 border-light-gray rounded-xl">
-            <ul class="flex flex-col gap-4">
-                <li v-for="review in productData.reviews" :key="review.id">
-                    <div class="flex flex-col">
-                        <div class="flex gap-4 ">
-                            <span class="font-medium">{{ review.reviewerName }}</span>
-                            <StarsRating
-                                :rating="review.rating"
-                            />
+        <div class="px-9">
+            <h2 class="text-3xl font-bold mt-5">Reviews</h2>
+            <div class="bg-dark-blue p-3 border-2 border-light-gray rounded-xl">
+                <ul class="flex flex-col gap-4">
+                    <li v-for="review in productData.reviews" :key="review.id">
+                        <div class="flex flex-col">
+                            <div class="flex gap-4 ">
+                                <span class="font-medium">{{ review.reviewerName }}</span>
+                                <StarsRating
+                                    :rating="review.rating"
+                                />
+                            </div>
+                            <p class="review-comment text-text">{{ review.comment }}</p>
                         </div>
-                        <p class="review-comment text-text">{{ review.comment }}</p>
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="text-3xl font-bold mt-5 ml-11">Related Products</h2>
+        <div class="flex justify-center">
+            <HorizontalScroll
+            :productsData="productsRelation" 
+            />
         </div>
     </div>
 </template>

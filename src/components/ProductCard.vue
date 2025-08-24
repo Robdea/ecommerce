@@ -9,7 +9,8 @@ const props = defineProps({
     product: {
         type: Object,
         required: true
-    }
+    },
+    differentClass: Boolean
 });
 
 const carList = useCarStore();
@@ -23,6 +24,7 @@ function addProductInCar(product) {
 
 <template>
     <div 
+    :class="props.differentClass ? 'mini-card' : 'card'"
     class="bg-semi-white rounded-3xl card hover:scale-104"
     >   
         <RouterLink 
@@ -35,12 +37,16 @@ function addProductInCar(product) {
                 :src="props.product.thumbnail" :alt="'Picture of ' + props.product.title">
             </div>
             <section class="flex flex-col p-5 bg-secundary-blue">
-                <span class="text-semi-white font-medium">{{ props.product.title }}</span>
+                <div class="text-white font-medium truncate">
+                    <p>{{ props.product.title }}</p>
+                </div>
+                
                 <div class="flex">
                     <StarsRating
                         :rating="props.product.rating"
                     />
                 </div> 
+
                 <span class="font-bold text-semi-white price">${{ props.product.price }}</span>
             </section>
 
@@ -64,6 +70,10 @@ function addProductInCar(product) {
     font-size: 1.2em;
 }
 .card{
-    width: clamp(328px, 23vw ,350px);
+    width: clamp(298px, 23vw ,350px);
+}
+
+.mini-card{
+    width: clamp(198px, 23vw ,350px);
 }
 </style>

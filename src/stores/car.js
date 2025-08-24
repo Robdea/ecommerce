@@ -63,6 +63,10 @@ export const useCarStore = defineStore('car', {
                 }
             }
             this.saveToLocalStorage();
+        },
+        clearCart(){
+            this.carList = []
+            this.saveToLocalStorage();
         }
     }
 })

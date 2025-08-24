@@ -64,6 +64,8 @@ function productsByCategory(params) {
     })
 }
 
+
+
 function productsBySearch(params) {
     
 }
