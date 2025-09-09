@@ -7,7 +7,6 @@ import CartIcon from '../assets/CartIcon.vue';
 import { useCarStore } from '../stores/car';
 import HorizontalScroll from './HorizontalScroll.vue'
 
-
 const route = useRoute();
 
 const productData = ref(null);
@@ -35,6 +34,7 @@ watch(
   () => route.params.id,
   async (newId) => {
     await loadProduct(newId); 
+    window.scrollTo({top:0, behavior: "smooth"})
     if (productData.value?.category) {
       await loadRelationProducts(productData.value.category); 
       console.log(productsRelation.value); 
